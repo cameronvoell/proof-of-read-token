@@ -5,21 +5,22 @@ contract ParityProofOfSMSInterface {
 }
 
 contract ProofOfReadToken {
-    ParityProofOfSMSInterface constant proofOfSms = ParityProofOfSMSInterface(0x9ae98746EB8a0aeEe5fF2b6B15875313a986f103);
     
-    struct PublishedArticle {
-        string articleHash;
-        bytes32 keyHash;
-        string articleUrl;
-    }
+    ParityProofOfSMSInterface public proofOfSms;
     
-    
-    mapping (string => bytes32) articleKeyHashRegister;
-    mapping (uint256 => string) public publishedRegister; //story num to articlehash
+    //maps reader addresses to a map of story num => have claimed readership
     mapping (address => mapping(uint256 => bool)) public readingRegister;
+    
+    //article hash to key hash
+    mapping (string => bytes32) articleKeyHashRegister; 
+    
+    //story num to article hash
+    mapping (uint256 => string) public publishedRegister; 
+    
     uint256 public numArticlesPublished;
     address public publishingOwner;
     bool public shieldsUp;
+    string ipfsGateway;
 
     
     /* ERC20 fields */
@@ -41,6 +42,8 @@ contract ProofOfReadToken {
         name = tokenName;
         symbol = tokenSymbol;
         decimals = decimalUnits;
+        ipfsGateway = "http://ipfs.io/ipfs/";
+        proofOfSms = ParityProofOfSMSInterface(0x9ae98746EB8a0aeEe5fF2b6B15875313a986f103);
     }
     
     /* Publish article */
@@ -104,10 +107,13 @@ contract ProofOfReadToken {
         return true;
     }
     
+    function updateIpfsGateway(string gateway) {
+        if (msg.sender == publishingOwner)
+            ipfsGateway = gateway;
+    }
         
     function setSmsCertificationRequired(bool enable) {
-        if (msg.sender == publishingOwner) {
+        if (msg.sender == publishingOwner)
             shieldsUp = enable;
-        }
     }
 }

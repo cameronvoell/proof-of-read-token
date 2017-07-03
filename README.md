@@ -1,5 +1,5 @@
 # proof-of-read-token
-Main Net Address: 0xd75fefe3cdb647281eec3f8fc738e3bc9658f9e4 
+Main Net Address: 0xd75fefe3cdb647281eec3f8fc738e3bc9658f9e4
 Rinkeby Address: 0x60c906565c3266082fae818afd351cdb773f2d00
 
 abi:
